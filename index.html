@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schreinerei Bäuml — Möbelbau Schwandorf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#f6f3ea;
+    --bone-2:#efe9da;
+    --panel:#fffdf7;
+    --ink:#262320;
+    --ink-dim:#716a5c;
+    --teal:#2d5a56;
+    --teal-bright:#3e7570;
+    --line:#ddd3bd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+  }
+  body{background:var(--bone);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden;}
+  h1,h2,h3{font-family:'Newsreader',serif;font-weight:600;letter-spacing:-0.01em;}
+  a{color:inherit;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.19,1,.22,1), transform .8s cubic-bezier(.19,1,.22,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px 36px;}
+  nav .brand{font-family:'Newsreader',serif;font-weight:600;font-style:italic;font-size:1.2rem;display:flex;align-items:center;gap:10px;}
+  nav ul{display:flex;gap:4px;list-style:none;background:rgba(255,253,247,0.75);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:30px;padding:5px;}
+  nav ul a{display:block;text-decoration:none;color:var(--ink-dim);font-size:0.84rem;padding:9px 18px;border-radius:24px;transition:background .25s,color .25s;}
+  nav ul a.active{background:var(--teal);color:#fff;font-weight:600;}
+  nav .cta{background:var(--ink);color:var(--bone);padding:10px 20px;border-radius:30px;text-decoration:none;font-size:0.82rem;font-weight:600;}
+
+  /* ================= HOME ================= */
+  .home{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:center;padding:130px 0 60px;overflow:hidden;}
+  .joint-bg{position:absolute;inset:0;z-index:0;opacity:0.55;}
+  .home-inner{position:relative;z-index:2;max-width:1160px;}
+  .home h1{max-width:760px;}
+  .home h1{font-size:clamp(2.6rem,6.4vw,5rem);line-height:1.04;margin:22px 0 26px;}
+  .home h1 em{font-style:italic;color:var(--teal);}
+  .home p{color:var(--ink-dim);font-size:1.1rem;max-width:460px;margin-bottom:34px;}
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-dark{background:var(--ink);color:var(--bone);padding:14px 28px;border-radius:3px;text-decoration:none;font-weight:600;font-size:0.9rem;transition:background .2s, transform .2s;}
+  .btn-dark:hover{background:var(--teal);transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line);padding:14px 28px;border-radius:3px;text-decoration:none;color:var(--ink);font-size:0.9rem;}
+  .btn-ghost:hover{border-color:var(--teal);}
+  .scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;}
+  .scroll-cue span{font-size:0.66rem;color:var(--ink-dim);font-family:'IBM Plex Mono',monospace;letter-spacing:0.08em;}
+  .scroll-cue .line{width:1px;height:32px;background:linear-gradient(var(--teal),transparent);animation:drop 1.8s ease-in-out infinite;}
+  @keyframes drop{0%{opacity:0;transform:scaleY(.3);transform-origin:top;}50%{opacity:1;transform:scaleY(1);transform-origin:top;}100%{opacity:0;transform:scaleY(.3);transform-origin:bottom;}}
+
+  /* ================= STORY ================= */
+  .story{padding:90px 0 70px;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .story-head{max-width:600px;margin:0 auto 40px;padding:0 32px;}
+  .story-head h2{font-size:clamp(1.9rem,3.3vw,2.5rem);}
+  .story-head p{color:var(--ink-dim);margin-top:12px;}
+  .story-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 32px 26px;scrollbar-width:thin;scrollbar-color:var(--teal) transparent;}
+  .story-track::-webkit-scrollbar{height:6px;}
+  .story-track::-webkit-scrollbar-thumb{background:var(--teal);border-radius:10px;}
+  .story-panel{scroll-snap-align:start;flex:0 0 min(330px,78vw);background:var(--bone);border:1px solid var(--line);border-radius:4px;padding:28px 24px;}
+  .story-panel .step{font-family:'IBM Plex Mono',monospace;color:var(--teal);font-size:0.78rem;margin-bottom:20px;display:block;}
+  .story-panel h3{font-size:1.25rem;margin-bottom:10px;}
+  .story-panel p{color:var(--ink-dim);font-size:0.9rem;}
+  .story-hint{padding:0 32px;color:var(--ink-dim);font-size:0.76rem;font-family:'IBM Plex Mono',monospace;}
+
+  section{padding:90px 0;}
+  .section-head{max-width:620px;margin-bottom:50px;}
+  .section-head h2{font-size:clamp(2rem,3.5vw,2.7rem);}
+  .section-head p{color:var(--ink-dim);margin-top:14px;font-size:1.02rem;}
+
+  /* ================= EXPLORE bento ================= */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .b-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:28px;position:relative;overflow:hidden;}
+  .b-card h3{font-size:1.22rem;margin-bottom:10px;}
+  .b-card p{color:var(--ink-dim);font-size:0.9rem;max-width:30ch;}
+  .b-1{grid-column:span 3;grid-row:span 2;padding:40px;display:flex;flex-direction:column;justify-content:flex-end;}
+  .b-1 h3{font-size:1.8rem;}
+  .b-1 .joint-mini{position:absolute;top:30px;right:30px;opacity:0.6;}
+  .b-2{grid-column:span 3;grid-row:span 2;}
+  .b-3{grid-column:span 2;}
+  .b-4{grid-column:span 2;}
+  .b-5{grid-column:span 2;}
+  @media(max-width:900px){
+    .bento{grid-template-columns:1fr;}
+    .b-1,.b-2,.b-3,.b-4,.b-5{grid-column:span 1;}
+  }
+
+  /* exploded joint detail (click reveal) */
+  .joint-explore{background:var(--bone);border:1px solid var(--line);border-radius:4px;padding:16px;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;}
+  .joint-explore svg{width:100%;height:auto;max-width:240px;}
+  .joint-explore .hint{position:absolute;bottom:14px;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:var(--ink-dim);}
+  .joint-label{opacity:0;transition:opacity .3s;}
+  .joint-explore.open .joint-label{opacity:1;}
+  .joint-explore .jpart{transition:transform .5s cubic-bezier(.19,1,.22,1);}
+  .joint-explore.open #jtenon{transform:translate(-14px,-10px);}
+  .joint-explore.open #jmortise{transform:translate(14px,10px);}
+
+  /* ================= SHOWCASE ================= */
+  .showcase-band{background:var(--ink);color:var(--bone);}
+  .showcase-band .ink-dim{color:#b8b0a0;}
+  .filters{display:flex;gap:10px;margin-bottom:34px;flex-wrap:wrap;}
+  .filter-btn{background:none;border:1px solid #4a473e;color:#b8b0a0;padding:9px 18px;border-radius:30px;font-size:0.84rem;cursor:pointer;font-family:'Inter',sans-serif;}
+  .filter-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600;}
+  .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .project{background:#2e2b26;border:1px solid #433f36;border-radius:4px;overflow:hidden;transition:opacity .35s;}
+  .project.hidden{display:none;}
+  .project .pv{aspect-ratio:4/3;display:flex;align-items:flex-end;padding:16px;position:relative;}
+  .project .pv svg{position:absolute;inset:0;width:100%;height:100%;}
+  .project .pv span{position:relative;z-index:1;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;background:rgba(246,243,234,0.12);padding:5px 10px;border-radius:3px;}
+  .project .pt{padding:16px 18px 20px;}
+  .project h4{font-size:1.0rem;margin-bottom:4px;}
+  .project span.cat{color:#7ba39e;font-size:0.74rem;font-family:'IBM Plex Mono',monospace;}
+  .demo-note{margin-top:24px;color:#9c9484;font-size:0.8rem;}
+  @media(max-width:860px){ .projects{grid-template-columns:1fr 1fr;} }
+  @media(max-width:560px){ .projects{grid-template-columns:1fr;} }
+
+  /* ================= CONNECT ================= */
+  .connect-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;}
+  .connect-info h2{font-size:clamp(2rem,3.4vw,2.6rem);margin-bottom:16px;}
+  .connect-info p{color:var(--ink-dim);max-width:420px;margin-bottom:28px;}
+  .info-list{list-style:none;}
+  .info-list li{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line);font-size:0.94rem;}
+  .info-list li:last-child{border-bottom:1px solid var(--line);}
+  .info-list .label{width:100px;color:var(--ink-dim);font-size:0.76rem;text-transform:uppercase;letter-spacing:0.03em;padding-top:2px;}
+
+  .stepper{display:flex;gap:8px;margin-bottom:26px;}
+  .step-dot{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .step-dot i{display:block;height:100%;width:0;background:var(--teal);transition:width .4s;}
+  .form-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:32px;}
+  .f-step{display:none;}
+  .f-step.active{display:block;}
+  .chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
+  .chip{border:1px solid var(--line);background:var(--bone);border-radius:4px;padding:14px;cursor:pointer;font-size:0.88rem;text-align:left;color:var(--ink-dim);}
+  .chip.selected{border-color:var(--teal);color:var(--ink);background:#e4ede9;}
+  .form-card label{display:block;font-size:0.8rem;color:var(--ink-dim);margin-bottom:6px;margin-top:16px;}
+  .form-card label:first-child{margin-top:0;}
+  .form-card input, .form-card textarea{width:100%;background:var(--bone);border:1px solid var(--line);color:var(--ink);padding:11px 13px;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.92rem;}
+  .f-actions{display:flex;justify-content:space-between;margin-top:26px;}
+  .btn-sm{background:var(--teal);color:#fff;border:none;padding:11px 24px;border-radius:4px;font-weight:600;font-size:0.88rem;cursor:pointer;}
+  .btn-sm.ghost{background:none;border:1px solid var(--line);color:var(--ink-dim);}
+  .btn-sm:disabled{opacity:0.4;cursor:not-allowed;}
+  .summary-box{background:var(--bone);border:1px solid var(--line);border-radius:4px;padding:18px;font-size:0.88rem;color:var(--ink-dim);margin-bottom:18px;}
+  .summary-box strong{color:var(--ink);}
+  .success{text-align:center;padding:20px 0;}
+  .success .mark{width:52px;height:52px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;}
+
+  footer{padding:36px 0;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:0.8rem;color:var(--ink-dim);}
+
+  .demo-tag{position:fixed;bottom:16px;right:16px;background:var(--ink);color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:0.62rem;padding:7px 11px;border-radius:3px;z-index:60;letter-spacing:0.03em;}
+
+  /* ===== Unterseiten (Routing) ===== */
+  .page{display:none;}
+  .page.active{display:block;animation:pagein .55s cubic-bezier(.19,1,.22,1);}
+  @keyframes pagein{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .page-top{padding-top:150px;}
+  .showcase-band{min-height:100vh;}
+
+  /* Teaser auf der Startseite */
+  .teaser{padding:90px 0;}
+  .teaser-grid{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:auto auto;gap:14px;}
+  .teaser-tile{display:flex;flex-direction:column;justify-content:flex-end;gap:10px;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:32px;min-height:190px;transition:border-color .25s, transform .25s;}
+  .teaser-tile:hover{border-color:var(--teal);transform:translateY(-3px);}
+  .teaser-tile h3{font-size:1.35rem;}
+  .teaser-tile p{color:var(--ink-dim);font-size:0.9rem;max-width:34ch;}
+  .teaser-tile .t-link{font-size:0.82rem;font-weight:600;color:var(--teal);}
+  .teaser-tile.t-big{grid-row:span 2;padding:44px;}
+  .teaser-tile.t-big h3{font-size:2rem;}
+  .teaser-tile.dark{background:var(--ink);border-color:var(--ink);}
+  .teaser-tile.dark h3{color:var(--bone);}
+  .teaser-tile.dark p{color:#b8b0a0;}
+  .teaser-tile.dark .t-link{color:#7ba39e;}
+
+  /* Aufklappbare Details (Leistungen) */
+  .details-list{margin-top:60px;max-width:760px;}
+  .details-list .dl-title{font-size:1.5rem;margin-bottom:18px;}
+  .details-list details{border-top:1px solid var(--line);padding:18px 0;}
+  .details-list details:last-child{border-bottom:1px solid var(--line);}
+  .details-list summary{cursor:pointer;font-family:'Newsreader',serif;font-size:1.2rem;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+  .details-list summary::-webkit-details-marker{display:none;}
+  .details-list summary::after{content:"+";color:var(--teal);font-size:1.4rem;transition:transform .3s;}
+  .details-list details[open] summary::after{transform:rotate(45deg);}
+  .details-list details p{color:var(--ink-dim);margin-top:12px;max-width:56ch;}
+
+  footer .foot-nav a{text-decoration:none;}
+  footer .foot-nav a:hover{color:var(--teal);}
+
+  @media(max-width:860px){
+    .teaser-grid{grid-template-columns:1fr;}
+    .teaser-tile.t-big{grid-row:auto;padding:32px;}
+    /* mobile Tab-Leiste */
+    nav ul{display:flex !important;position:fixed;bottom:12px;left:12px;right:12px;justify-content:space-between;z-index:55;box-shadow:0 8px 24px rgba(38,35,32,0.15);}
+    nav ul li{flex:1;}
+    nav ul a{text-align:center;padding:11px 4px;font-size:0.78rem;}
+    footer{padding-bottom:96px;}
+    .demo-tag{bottom:82px;}
+    .page-top{padding-top:110px;}
+    .scroll-cue{display:none;}
+  }
+  @media(max-width:860px){
+    .connect-grid{grid-template-columns:1fr;}
+    .chip-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-tag">CINEMATIC DEMO-ENTWURF — NICHT VERÖFFENTLICHT</div>
+
+<nav id="mainnav">
+  <a class="brand" href="#startseite">
+    <svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="11" width="8" height="8" fill="none" stroke="#2d5a56" stroke-width="2"/><rect x="14" y="7" width="8" height="8" fill="none" stroke="#2d5a56" stroke-width="2"/></svg>
+    Bäuml
+  </a>
+  <ul>
+    <li><a href="#startseite" class="active">Startseite</a></li>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#projekte">Projekte</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="cta">Projekt anfragen</a>
+</nav>
+
+<main>
+<div class="page active" data-page="startseite">
+<!-- ================= STARTSEITE ================= -->
+<section class="home">
+  <svg class="joint-bg" id="jointbg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+    <g stroke="#ddd3bd" stroke-width="2" fill="none">
+      <rect x="900" y="260" width="180" height="180" transform="rotate(8 990 350)"/>
+      <rect x="1060" y="200" width="180" height="180" transform="rotate(8 1150 290)"/>
+      <line x1="990" y1="350" x2="1150" y2="290" stroke-dasharray="4 8"/>
+    </g>
+  </svg>
+  <div class="wrap home-inner">
+    <span class="mono">SCHREINEREI BÄUML — SCHWANDORF, MASSGESCHNEIDERTER HOLZBAU</span>
+    <h1 class="reveal">Möbel, die <em>Maß nehmen</em> an Ihrem Zuhause.</h1>
+    <p class="reveal">Individueller Möbelbau, Küchen, Bodenverlegung und Fensterlösungen aus einer Hand — von der ersten Idee bis zur Montage vor Ort in Schwandorf.</p>
+    <div class="btn-row reveal">
+      <a href="#kontakt" class="btn-dark">Projekt besprechen</a>
+      <a href="#leistungen" class="btn-ghost">Leistungen entdecken</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>SCROLLEN</span><div class="line"></div></div>
+</section>
+
+<!-- ================= STORY ================= -->
+<section class="story">
+  <div class="story-head reveal">
+    <span class="mono">Wie ein Möbelstück entsteht</span>
+    <h2>Vom Aufmaß zum fertigen Stück.</h2>
+    <p>Vier Schritte, in denen aus Ihrer Idee ein Möbelstück wird.</p>
+  </div>
+  <div class="story-track">
+    <div class="story-panel reveal"><span class="step">01 — Aufmaß &amp; Beratung</span><h3>Vor Ort bei Ihnen</h3><p>Wir nehmen Maß und besprechen, was wirklich zu Ihrem Zuhause passt.</p></div>
+    <div class="story-panel reveal"><span class="step">02 — Entwurf</span><h3>Vom Gespräch zur Zeichnung</h3><p>Ihre Wünsche werden zu einem konkreten, abgestimmten Konzept.</p></div>
+    <div class="story-panel reveal"><span class="step">03 — Fertigung</span><h3>In der Werkstatt</h3><p>Zuschnitt, Verbindungen, Oberfläche — mit Sorgfalt von Hand gefertigt.</p></div>
+    <div class="story-panel reveal"><span class="step">04 — Montage</span><h3>Einbau bei Ihnen</h3><p>Passgenauer Einbau vor Ort, bis alles sitzt.</p></div>
+  </div>
+  <div class="story-hint">← seitlich scrollen oder wischen →</div>
+</section>
+
+<!-- ================= TEASER ================= -->
+<section class="teaser">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Weiterstöbern</span>
+      <h2>Was Sie auf den weiteren Seiten finden.</h2>
+    </div>
+    <div class="teaser-grid">
+      <a href="#leistungen" class="teaser-tile t-big reveal">
+        <span class="mono">Leistungen</span>
+        <h3>Möbelbau, Küche, Böden und Fenster</h3>
+        <p>Alles, was Schreinerei Bäuml für Ihr Zuhause fertigt — im Überblick und im Detail.</p>
+        <span class="t-link">Leistungen ansehen</span>
+      </a>
+      <a href="#projekte" class="teaser-tile reveal">
+        <span class="mono">Projekte</span>
+        <h3>Ausgewählte Arbeiten</h3>
+        <span class="t-link">Projekte ansehen</span>
+      </a>
+      <a href="#kontakt" class="teaser-tile dark reveal">
+        <span class="mono" style="color:#7ba39e;">Kontakt</span>
+        <h3>Projekt besprechen</h3>
+        <span class="t-link">Anfrage starten</span>
+      </a>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page" data-page="leistungen">
+<!-- ================= LEISTUNGEN ================= -->
+<section class="page-top">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Leistungen</span>
+      <h2>Vom Möbelstück bis zur Küche.</h2>
+      <p>Alles aus einer Hand: Entwurf, Fertigung und Montage.</p>
+    </div>
+    <div class="bento">
+      <div class="b-card b-1 reveal">
+        <svg class="joint-mini" width="70" height="70" viewBox="0 0 70 70"><rect x="8" y="30" width="24" height="24" fill="none" stroke="#2d5a56" stroke-width="2"/><rect x="38" y="12" width="24" height="24" fill="none" stroke="#2d5a56" stroke-width="2"/></svg>
+        <h3>Möbelbau</h3>
+        <p>Individuelle Möbelstücke, die genau auf Ihren Raum und Ihren Stil zugeschnitten sind — mit Sorgfalt von Hand gefertigt.</p>
+      </div>
+      <div class="b-card b-2 reveal">
+        <div class="joint-explore" id="jointExplore">
+          <svg viewBox="0 0 220 160">
+            <rect id="jtenon" class="jpart" x="40" y="55" width="55" height="50" fill="none" stroke="#2d5a56" stroke-width="2.2"/>
+            <rect id="jmortise" class="jpart" x="125" y="40" width="55" height="50" fill="none" stroke="#716a5c" stroke-width="2.2"/>
+            <text class="joint-label" x="40" y="130" font-family="IBM Plex Mono" font-size="9" fill="#716a5c">ZAPFEN</text>
+            <text class="joint-label" x="125" y="130" font-family="IBM Plex Mono" font-size="9" fill="#716a5c">ZAPFENLOCH</text>
+          </svg>
+          <span class="hint">Klicken zum Zerlegen der Verbindung</span>
+        </div>
+      </div>
+      <div class="b-card b-3 reveal"><h3>Bodenverlegung</h3><p>Hochwertige Materialien, professionell verlegt.</p></div>
+      <div class="b-card b-4 reveal"><h3>Fensterbau</h3><p>Energieeffiziente, stilvolle Fensterlösungen.</p></div>
+      <div class="b-card b-5 reveal"><h3>Küchen &amp; Bad</h3><p>Küchen- und Badezimmermöbel in Eigenfertigung.</p></div>
+    </div>
+    <div class="details-list reveal">
+      <h3 class="dl-title">Im Detail</h3>
+      <details><summary>Möbelbau</summary><p>Individuelle Möbelstücke, die Ihren Stil widerspiegeln — zum Beispiel Möbel auf Maß für das Wohnzimmer. Jedes Stück wird mit Sorgfalt und Liebe zum Detail gefertigt.</p></details>
+      <details><summary>Bodenverlegung</summary><p>Professionelle Verlegung hochwertiger Bodenbeläge für ein angenehmes Wohnambiente.</p></details>
+      <details><summary>Fensterbau</summary><p>Energieeffiziente und stilvolle Fensterlösungen — auch die individuelle Anpassung von Fenstern.</p></details>
+      <details><summary>Küchen &amp; Badezimmermöbel</summary><p>Renovierung Ihrer Küche sowie Küchen- und Badezimmermöbel aus eigener Fertigung.</p></details>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="page" data-page="projekte">
+<!-- ================= PROJEKTE ================= -->
+<section class="showcase-band page-top">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Projekte</span>
+      <h2>Ausgewählte Projekte.</h2>
+      <p class="ink-dim">Diese Projektkarten sind als Beispiel gestaltet, um zu zeigen, wie echte Projektfotos später wirken würden.</p>
+    </div>
+    <div class="filters reveal">
+      <button class="filter-btn active" data-filter="alle">Alle</button>
+      <button class="filter-btn" data-filter="moebel">Möbel</button>
+      <button class="filter-btn" data-filter="kueche">Küche</button>
+      <button class="filter-btn" data-filter="bad">Bad</button>
+    </div>
+    <div class="projects reveal" id="projectGrid">
+      <div class="project" data-cat="moebel">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#2e2b26"/><rect x="60" y="80" width="180" height="90" fill="none" stroke="#7ba39e" stroke-width="2"/><line x1="60" y1="170" x2="60" y2="200" stroke="#7ba39e" stroke-width="2"/><line x1="240" y1="170" x2="240" y2="200" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Wohnzimmerschrank, Eiche</h4><span class="cat">Möbelbau</span></div>
+      </div>
+      <div class="project" data-cat="kueche">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#332f28"/><rect x="50" y="90" width="90" height="80" fill="none" stroke="#7ba39e" stroke-width="2"/><rect x="160" y="90" width="90" height="80" fill="none" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Küche nach Maß</h4><span class="cat">Küche · Eigenfertigung</span></div>
+      </div>
+      <div class="project" data-cat="bad">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#2e2b26"/><rect x="80" y="70" width="60" height="110" fill="none" stroke="#7ba39e" stroke-width="2"/><circle cx="190" cy="110" r="35" fill="none" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Badmöbel, Eigenfertigung</h4><span class="cat">Bad</span></div>
+      </div>
+      <div class="project" data-cat="moebel">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#332f28"/><rect x="70" y="60" width="160" height="30" fill="none" stroke="#7ba39e" stroke-width="2"/><line x1="90" y1="90" x2="90" y2="170" stroke="#7ba39e" stroke-width="2"/><line x1="210" y1="90" x2="210" y2="170" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Regalwand, Nussbaum</h4><span class="cat">Möbelbau</span></div>
+      </div>
+      <div class="project" data-cat="kueche">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#2e2b26"/><rect x="60" y="100" width="180" height="60" fill="none" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Kücheninsel</h4><span class="cat">Küche</span></div>
+      </div>
+      <div class="project" data-cat="bad">
+        <div class="pv"><svg viewBox="0 0 300 220"><rect width="300" height="220" fill="#332f28"/><rect x="90" y="80" width="120" height="50" fill="none" stroke="#7ba39e" stroke-width="2"/></svg><span>Demo-Projekt</span></div>
+        <div class="pt"><h4>Waschtischunterschrank</h4><span class="cat">Bad</span></div>
+      </div>
+    </div>
+    <p class="demo-note">Alle sechs Projekte sind Platzhalter-Beispiele für diesen Entwurf — echte Referenzfotos ersetzen sie beim finalen Launch.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="page" data-page="kontakt">
+<!-- ================= KONTAKT ================= -->
+<section class="page-top">
+  <div class="wrap connect-grid">
+    <div class="connect-info reveal">
+      <span class="mono">Kontakt</span>
+      <h2>Lassen Sie uns über Ihr Projekt sprechen.</h2>
+      <p>Egal ob neues Möbelstück, Küche oder Badezimmer — ich melde mich zeitnah mit einem ersten Vorschlag.</p>
+      <ul class="info-list">
+        <li><span class="label">Adresse</span><span>Hainstr. 7, 92421 Schwandorf</span></li>
+        <li><span class="label">Telefon</span><span>09431 3851177</span></li>
+        <li><span class="label">E-Mail</span><span>daniel.baeuml@gmx.net</span></li>
+      </ul>
+    </div>
+    <div class="form-card reveal">
+      <div class="stepper"><div class="step-dot"><i id="dot1"></i></div><div class="step-dot"><i id="dot2"></i></div><div class="step-dot"><i id="dot3"></i></div></div>
+
+      <div class="f-step active" id="step1">
+        <label>Worum geht es?</label>
+        <div class="chip-grid" id="chipGrid">
+          <button type="button" class="chip" data-v="Möbelbau">Möbelbau</button>
+          <button type="button" class="chip" data-v="Küche">Küche</button>
+          <button type="button" class="chip" data-v="Bad">Badezimmer</button>
+          <button type="button" class="chip" data-v="Sonstiges">Sonstiges</button>
+        </div>
+        <div class="f-actions"><span></span><button class="btn-sm" id="toStep2" disabled>Weiter</button></div>
+      </div>
+
+      <div class="f-step" id="step2">
+        <label for="cname">Name</label>
+        <input id="cname" type="text" placeholder="Ihr Name">
+        <label for="cphone">Telefon oder E-Mail</label>
+        <input id="cphone" type="text" placeholder="Wie erreichen wir Sie?">
+        <label for="cmsg">Kurz zu Ihrem Vorhaben</label>
+        <textarea id="cmsg" rows="3" placeholder="z. B. Raumgröße, gewünschtes Material, Zeitrahmen …"></textarea>
+        <div class="f-actions"><button class="btn-sm ghost" id="toStep1">Zurück</button><button class="btn-sm" id="toStep3">Weiter</button></div>
+      </div>
+
+      <div class="f-step" id="step3">
+        <div class="summary-box" id="summaryBox"></div>
+        <div class="f-actions"><button class="btn-sm ghost" id="backStep2">Zurück</button><button class="btn-sm" id="submitForm">Anfrage senden</button></div>
+      </div>
+
+      <div class="f-step" id="stepDone">
+        <div class="success">
+          <div class="mark">✓</div>
+          <h3 style="margin-bottom:8px;">Anfrage erfasst</h3>
+          <p style="color:var(--ink-dim);font-size:0.9rem;">Dies ist ein Demo-Formular — in der echten Version würde die Anfrage jetzt direkt bei Schreinerei Bäuml ankommen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Schreinerei Bäuml, Daniel Bäuml, Schwandorf</span>
+    <span class="foot-nav"><a href="#startseite">Startseite</a> · <a href="#leistungen">Leistungen</a> · <a href="#projekte">Projekte</a> · <a href="#kontakt">Kontakt</a></span>
+    <span>Impressum · Datenschutz</span>
+  </div>
+</footer>
+
+<script>
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+
+const PAGES = {
+  startseite: 'Schreinerei Bäuml — Möbelbau Schwandorf',
+  leistungen: 'Leistungen — Schreinerei Bäuml',
+  projekte: 'Projekte — Schreinerei Bäuml',
+  kontakt: 'Kontakt — Schreinerei Bäuml'
+};
+const navLinks = document.querySelectorAll('#mainnav ul a');
+function route(){
+  let h = location.hash.replace('#','');
+  if(!PAGES[h]) h = 'startseite';
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.dataset.page === h));
+  navLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href') === '#'+h));
+  document.title = PAGES[h];
+  window.scrollTo({top:0, left:0, behavior:'instant'});
+}
+window.addEventListener('hashchange', route);
+route();
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const jointBg = document.getElementById('jointbg');
+if(!reduceMotion){
+  window.addEventListener('scroll', ()=>{
+    const y = window.scrollY;
+    jointBg.style.transform = `translateY(${y*0.15}px) scale(${1+Math.min(y/4500,0.06)})`;
+  }, {passive:true});
+}
+
+document.getElementById('jointExplore').addEventListener('click', function(){
+  this.classList.toggle('open');
+});
+
+const filterBtns = document.querySelectorAll('.filter-btn');
+const projects = document.querySelectorAll('.project');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    projects.forEach(p=>{
+      p.classList.toggle('hidden', f !== 'alle' && p.dataset.cat !== f);
+    });
+  });
+});
+
+let chosenType = null;
+const chips = document.querySelectorAll('.chip');
+chips.forEach(c=>{
+  c.addEventListener('click', ()=>{
+    chips.forEach(x=>x.classList.remove('selected'));
+    c.classList.add('selected');
+    chosenType = c.dataset.v;
+    document.getElementById('toStep2').disabled = false;
+  });
+});
+
+function showStep(id){
+  document.querySelectorAll('.f-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('dot1').style.width = '100%';
+  document.getElementById('dot2').style.width = (id==='step2'||id==='step3'||id==='stepDone') ? '100%':'0%';
+  document.getElementById('dot3').style.width = (id==='step3'||id==='stepDone') ? '100%':'0%';
+}
+document.getElementById('toStep2').addEventListener('click', ()=> showStep('step2'));
+document.getElementById('toStep1').addEventListener('click', ()=> showStep('step1'));
+document.getElementById('toStep3').addEventListener('click', ()=>{
+  const name = document.getElementById('cname').value || '—';
+  const contact = document.getElementById('cphone').value || '—';
+  const msg = document.getElementById('cmsg').value || '—';
+  document.getElementById('summaryBox').innerHTML =
+    `<strong>Anliegen:</strong> ${chosenType || '—'}<br>` +
+    `<strong>Name:</strong> ${name}<br>` +
+    `<strong>Kontakt:</strong> ${contact}<br>` +
+    `<strong>Nachricht:</strong> ${msg}`;
+  showStep('step3');
+});
+document.getElementById('backStep2').addEventListener('click', ()=> showStep('step2'));
+document.getElementById('submitForm').addEventListener('click', ()=> showStep('stepDone'));
+</script>
+
+</body>
+</html>
